@@ -1,0 +1,9 @@
+*.bag
+*.mcap
+rosbag2_*
+.git/
+datasets_5080/
+bags/
+build/
+install/
+log/
