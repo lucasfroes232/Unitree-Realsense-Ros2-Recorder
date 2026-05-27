@@ -119,7 +119,8 @@ ros2 run unitree_lidar_ros2 decoder_node
 .
 ├── Dockerfile                  # Multi-stage build definition
 ├── .dockerignore               # Cache and bag exclusion rules
-├── README.md                   
+├── README.md    
+├── Docs                
 └── src/
     ├── unitree_lidar_ros2/     # The core ROS 2 package (Capture & Decode)
     └── unitree_lidar_sdk/      # Statically linked Unitree C++ dependencies
