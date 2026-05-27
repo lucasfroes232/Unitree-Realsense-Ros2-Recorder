@@ -6,8 +6,7 @@
 
 A zero-overhead, multi-stage Dockerized ROS 2 (Jazzy) workspace designed for high-performance raw data acquisition from **Unitree L2 LiDARs** and **Intel RealSense** cameras.
 
-Built specifically for resource-constrained environments — such as UAV onboard computers or custom Terrestrial Laser Scanner (TLS) rigs — this architecture ensures ultra-low latency recording, making it ideal for downstream SLAM (FAST-LIVO, LIO-SAM) and dense biomass estimation pipelines.
-
+Built specifically for resource-constrained environments — such as UAV onboard computers or custom Terrestrial Laser Scanner (TLS) rigs — this architecture ensures ultra-low latency recording.
 <div align="center">
   <img src="docs/hardware_setup.png" alt="Hardware Setup: Custom TLS wooden rig with Unitree L2 and RealSense" width="600"/>
 </div>
