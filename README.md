@@ -1,4 +1,4 @@
-# Lightweight Unitree L2 & RealSense ROS 2 Recorder 🚀
+# Lightweight Unitree L2 & RealSense ROS 2 Recorder 
 
 ![ROS 2](https://img.shields.io/badge/ROS_2-Jazzy-342B5A?logo=ros)
 ![Docker](https://img.shields.io/badge/Docker-Multi--stage-2496ED?logo=docker)
@@ -9,7 +9,7 @@ A zero-overhead, multi-stage Dockerized ROS 2 (Jazzy) workspace designed for hig
 Built specifically for resource-constrained environments — such as UAV onboard computers or custom Terrestrial Laser Scanner (TLS) rigs — this architecture ensures ultra-low latency recording, making it ideal for downstream SLAM (FAST-LIVO, LIO-SAM) and dense biomass estimation pipelines.
 
 <div align="center">
-  <img src="docs/images/hardware_setup.png" alt="Hardware Setup: Custom TLS wooden rig with Unitree L2 and RealSense" width="600"/>
+  <img src="docs/hardware_setup.png" alt="Hardware Setup: Custom TLS wooden rig with Unitree L2 and RealSense" width="600"/>
 </div>
 
 ---
@@ -25,7 +25,7 @@ Recording dense `PointCloud2` messages directly to a `.bag` file can cause sever
 3. **Multi-stage Docker Build:** The final distributed image contains only the compiled binaries and RealSense drivers. It leaves all C++ source code and build caches behind, resulting in a minimal footprint.
 
 <div align="center">
-  <img src="docs/images/architecture_diagram.png" alt="Software Architecture Diagram" width="800"/>
+  <img src="docs/architecture_diagram.png" alt="Software Architecture Diagram" width="800"/>
 </div>
 
 ---
@@ -115,6 +115,7 @@ ros2 run unitree_lidar_ros2 decoder_node
 ---
 
 ## 📂 Repository Structure
+```plaintext
 .
 ├── Dockerfile                  # Multi-stage build definition
 ├── .dockerignore               # Cache and bag exclusion rules
@@ -122,7 +123,7 @@ ros2 run unitree_lidar_ros2 decoder_node
 └── src/
     ├── unitree_lidar_ros2/     # The core ROS 2 package (Capture & Decode)
     └── unitree_lidar_sdk/      # Statically linked Unitree C++ dependencies
-
+```
 ---
 
 ## 🤝 Contributing
