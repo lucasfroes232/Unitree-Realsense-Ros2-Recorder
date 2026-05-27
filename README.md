@@ -19,7 +19,7 @@ Recording dense `PointCloud2` messages directly to a `.bag` file can cause sever
 
 1. **Raw Capture Node (`unitree_lidar_ros2_node`):** A highly optimized C++ node that intercepts pure UDP packets (port 6201) and publishes them instantly as custom `LidarMetadata` messages. This keeps CPU usage near 0% during in-field recording.
 
-2. **Offline Decoder Node (`decoder_node`):** A secondary node used post-capture. It translates the raw `.bag` packets into standard `sensor_msgs/PointCloud2` messages **and simultaneously decodes the raw IMU data** (accelerometer + gyroscope readings) embedded in the UDP stream, publishing them as `sensor_msgs/Imu` messages. Both streams are aligned using the statically linked Unitree SDK, preserving perfect timestamp synchronization for tightly-coupled SLAM ingestion (e.g., LIO-SAM, FAST-LIVO).
+2. **Offline Decoder Node (`decoder_node`):** A secondary node used post-capture. It translates the raw `.bag` packets into standard `sensor_msgs/PointCloud2` messages **and simultaneously decodes the raw IMU data** (accelerometer + gyroscope readings) embedded in the UDP stream, publishing them as `sensor_msgs/Imu` messages. Both streams are aligned using the statically linked Unitree SDK, preserving perfect timestamp synchronization.
 
 3. **Multi-stage Docker Build:** The final distributed image contains only the compiled binaries and RealSense drivers. It leaves all C++ source code and build caches behind, resulting in a minimal footprint.
 
