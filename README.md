@@ -52,7 +52,11 @@ docker run -it --net=host \
 
 ### 1. Wake up the LiDAR motor
 
-Before capturing data, ensure the LiDAR is spinning by sending the initialization command to port 6101. (You can run the standard Unitree UDP example for this.)
+Before capturing data, ensure the LiDAR is spinning by sending the initialization command to port 6101. You can run the standard Unitree UDP example for this:
+
+```bash
+./unitree_examples/example_lidar_udp
+```
 
 ### 2. Start the Raw Capture Node
 

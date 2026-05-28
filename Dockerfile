@@ -32,7 +32,7 @@ RUN apt-get update && apt-get install -y \
 # A MÁGICA: Puxamos do estágio 1 apenas a pasta 'install' já compilada!
 # O código fonte C++ original não vai para a imagem final, deixando ela minúscula.
 COPY --from=builder /ros2_ws/install ./install
-
+COPY --from=builder /ros2_ws/src/unitree_lidar_sdk/bin ./unitree_examples
 # Documenta as portas de comunicação do LiDAR
 EXPOSE 6101/udp
 EXPOSE 6201/udp
