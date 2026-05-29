@@ -79,7 +79,7 @@ ros2 launch realsense2_camera rs_launch.py \
 Start recording the compressed visual data and the lightweight raw LiDAR packets. By targeting the `/compressed` and `/compressedDepth` topics, you save gigabytes of storage while preserving full data integrity. The `/unilidar/raw` topic contains **both LiDAR and IMU data** multiplexed in the original UDP stream.
 
 ```bash
-ros2 bag record -o optimized_forest_scan \
+ros2 bag record -o <your_bag> \
   /camera/camera/color/image_raw/compressed \
   /camera/camera/aligned_depth_to_color/image_raw/compressedDepth \
   /camera/camera/color/camera_info \
@@ -99,7 +99,7 @@ Once you are back at your workstation, launch the unified decoder and play the `
 ros2 launch unitree_lidar_ros2 decode_all.launch.py
 
 # Terminal 2 — Replay the compressed recording
-ros2 bag play optimized_forest_scan
+ros2 bag play <your_bag>
 
 # Terminal 3 — Visualize everything perfectly synced!
 rviz2
