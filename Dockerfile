@@ -24,7 +24,9 @@ WORKDIR /ros2_ws
 
 # Instala a RealSense primeiro (aproveitando o cache do Docker)
 RUN apt-get update && apt-get install -y \
-    ros-jazzy-realsense2-camera \
+    ros-jazzy-librealsense2* \
+    ros-jazzy-realsense2-* \
+    ros-jazzy-image-transport-plugins \
     nano \
     psmisc \
     && rm -rf /var/lib/apt/lists/*

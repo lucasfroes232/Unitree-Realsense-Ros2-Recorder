@@ -104,4 +104,9 @@ install(FILES
   DESTINATION share/${PROJECT_NAME}
 )
 
+# Instala a pasta de launch para o ROS 2 enxergar
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}/
+)
+
 ament_package()
