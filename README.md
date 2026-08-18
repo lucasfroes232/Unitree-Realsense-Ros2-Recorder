@@ -9,7 +9,7 @@
 
 <p align="center">
   <img src="docs/system_working.png" alt="Sistema operando em campo" width="35%">
-  <img src="docs/architecture_diagram.png" alt="Diagrama da Arquitetura do Sistema" width="50%">
+  <img src="docs/architecture_diagram.png" alt="Diagrama da Arquitetura do Sistema" width="45%">
 </p>
 
 A zero-overhead, multi-stage Dockerized ROS 2 (Jazzy) workspace designed for high-performance raw data acquisition from **Unitree L2 LiDARs** and **Intel RealSense** cameras. 
