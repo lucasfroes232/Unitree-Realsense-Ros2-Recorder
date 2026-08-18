@@ -8,25 +8,34 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 <p align="center">
+  <img src="docs/system_working.png" alt="Sistema operando em campo" width="48%">
   <img src="docs/architecture_diagram.png" alt="Diagrama da Arquitetura do Sistema" width="48%">
 </p>
 
-A zero-overhead, multi-stage Dockerized ROS 2 (Jazzy) workspace designed for high-performance raw data acquisition from **Unitree L2 LiDARs** and **Intel RealSense** cameras.
+A zero-overhead, multi-stage Dockerized ROS 2 (Jazzy) workspace designed for high-performance raw data acquisition from **Unitree L2 LiDARs** and **Intel RealSense** cameras. 
 
-Built specifically for resource-constrained environments — such as UAV onboard computers or custom Terrestrial Laser Scanner (TLS) rigs — this architecture ensures ultra-low latency recording and minimizes disk space usage through advanced compression pipelines.
+Built specifically for resource-constrained environments—such as UAV onboard computers or Terrestrial Laser Scanners (TLS)—this architecture ensures ultra-low latency recording and minimizes disk space usage through advanced compression pipelines, ideal for mapping unstructured outdoor environments.
 
 ---
 
 ## 🧠 Architecture Highlights
 
-Recording dense `PointCloud2` and raw uncompressed `Image` messages directly to a `.bag` file can cause severe CPU bottlenecks, network latency, and massive storage consumption on embedded systems. This package solves this by splitting the workflow into two distinct phases:
+Recording dense `PointCloud2` and raw uncompressed images directly to a `.bag` file causes severe CPU bottlenecks and massive storage consumption on embedded systems. This project solves this via a two-phase workflow:
 
-1. **Raw Capture & Compressed Recording:** A highly optimized C++ node intercepts pure UDP packets from the LiDAR and publishes them instantly as custom `LidarMetadata`. Simultaneously, the RealSense camera utilizes `image_transport` plugins to publish JPEG/PNG compressed streams. **The recorder exclusively captures these lightweight `/compressed` and `/compressedDepth` topics**, completely bypassing the heavy raw images. This keeps CPU usage low and reduces `.bag` file sizes by up to 90% during in-field recording.
-2. **Offline Unified Decoder (`decode_all.launch.py`):** A unified post-capture launch file. It translates the raw `.bag` LiDAR packets into standard `sensor_msgs/PointCloud2`, decodes the embedded IMU data, and simultaneously decompresses the recorded RealSense JPEG/PNG images back into pure raw formats. Everything is perfectly synchronized for SLAM algorithms like FAST-LIVO.
-3. **Multi-stage Docker Build:** The final distributed image contains only the compiled binaries, RealSense drivers, and compression plugins. It leaves all C++ source code and build caches behind, resulting in a minimal footprint.
+*   **Phase 1: Raw Capture & Compressed Recording:** A highly optimized C++ node intercepts pure UDP packets from the LiDAR. Simultaneously, the RealSense camera uses `image_transport` plugins to publish JPEG/PNG compressed streams. By capturing only `/compressed` topics and raw UDP payloads, CPU usage remains low and `.bag` files are reduced by up to 90%.
+*   **Phase 2: Offline Unified Decoder:** A unified post-capture launch file (`decode_all.launch.py`) translates raw LiDAR packets into `sensor_msgs/PointCloud2`, decodes IMU data, and decompresses visual streams. Everything is perfectly synchronized for SLAM algorithms (e.g., FAST-LIVO).
+*   **Multi-stage Docker Build:** The final distributed image contains only compiled binaries and drivers, leaving build caches behind for a minimal footprint.
 
 ---
+## 📍 Reconstruction Results
 
+By processing the lightweight `.bag` files through our offline decoder, the data is perfectly synchronized and ready for complex SLAM pipelines. Below is an example of a dense 3D point cloud reconstructed from an outdoor deployment:
+
+<p align="center">
+  <img src="docs/descompress_point_cloud" alt="Nuvem de pontos 3D gerada após descompressão" width="80%">
+</p>
+
+---
 ## ⚡ Quick Start (No compilation required)
 
 You do not need to pollute your host machine with ROS 2, C++ compilers, or SDKs. Just pull the latest pre-built image:
@@ -53,8 +62,7 @@ docker run -it --net=host --privileged \
 
 ### 1. Wake up the LiDAR motor
 
-Before capturing data, ensure the LiDAR is spinning by sending the initialization command to port 6101. You can run the standard Unitree UDP example for this:
-
+Before capturing, initialize the LiDAR motor (port 6101) and launch the capture node to listen on port 6201:
 ```bash
 ./unitree_examples/example_lidar_udp
 
@@ -71,7 +79,7 @@ ros2 run unitree_lidar_ros2 unitree_lidar_ros2_node --ros-args -p udp_port:=6201
 
 ### 3. Launch the RealSense Camera
 
-> ⚠️ **Pro-Tip for Embedded Systems:** To prevent USB bus saturation and keep the `.bag` file size manageable during flights or TLS scanning, it is highly recommended to run the RealSense camera at a lower resolution (e.g., 640x480) and capped at 15 FPS.
+> ⚠️ **Pro-Tip for Embedded Systems:** Run the camera at a lower resolution (e.g., 640x480 @ 15 FPS) to prevent USB bus saturation and manage .bag sizes.
 
 ```bash
 ros2 launch realsense2_camera rs_launch.py \
@@ -84,7 +92,7 @@ ros2 launch realsense2_camera rs_launch.py \
 
 ### 4. Record the Dataset (In-Flight / Field)
 
-Start recording the compressed visual data and the lightweight raw LiDAR packets. By targeting the `/compressed` and `/compressedDepth` topics, you save gigabytes of storage while preserving full data integrity. The `/unilidar/raw` topic contains **both LiDAR and IMU data** multiplexed in the original UDP stream.
+Record the compressed visual data and multiplexed raw LiDAR/IMU packets.
 
 ```bash
 ros2 bag record -o <your_bag> \
@@ -100,29 +108,19 @@ ros2 bag record -o <your_bag> \
 
 ### 5. Post-Processing (Decoding)
 
-Once you are back at your workstation, launch the unified decoder and play the `.bag` file. The decoder will automatically inflate the images and unpack the LiDAR/IMU packets.
+Back at your workstation, launch the unified decoder and play the .bag file to inflate images and unpack LiDAR/IMU packets.
 
 ```bash
-# Terminal 1 — Start the Universal Decoder (Images + LiDAR)
+# Terminal 1 — Start Decoder
 ros2 launch unitree_lidar_ros2 decode_all.launch.py
 
-# Terminal 2 — Replay the compressed recording
+# Terminal 2 — Replay recording
 ros2 bag play <your_bag>
 
-# Terminal 3 — Visualize everything perfectly synced!
+# Terminal 3 — Visualize
 rviz2
 
 ```
-
-**Decoded output topics ready for SLAM/RViz:**
-
-| Topic | Type | Description |
-| --- | --- | --- |
-| `/unilidar/cloud` | `sensor_msgs/PointCloud2` | Decoded 3D point cloud |
-| `/unilidar/imu` | `sensor_msgs/Imu` | Decoded IMU (accel + gyro) |
-| `/camera/camera/color/image_raw` | `sensor_msgs/Image` | Decompressed RGB pure image |
-| `/camera/camera/aligned_depth_to_color/image_raw` | `sensor_msgs/Image` | Decompressed aligned Depth image |
-
 ---
 
 ## 📂 Repository Structure
