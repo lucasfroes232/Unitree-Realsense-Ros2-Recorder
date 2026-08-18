@@ -32,7 +32,7 @@ Recording dense `PointCloud2` and raw uncompressed images directly to a `.bag` f
 By processing the lightweight `.bag` files through our offline decoder, the data is perfectly synchronized and ready for complex SLAM pipelines. Below is an example of a dense 3D point cloud reconstructed from an outdoor deployment:
 
 <p align="center">
-  <img src="docs/descompress_point_cloud.jpeg" alt="Nuvem de pontos 3D gerada após descompressão" width="80%">
+  <img src="docs/descompress_point_cloud.jpeg" alt="Nuvem de pontos 3D gerada após descompressão" width="50%">
 </p>
 
 ---
