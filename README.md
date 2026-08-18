@@ -8,8 +8,8 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
 <p align="center">
-  <img src="docs/system_working.png" alt="Sistema operando em campo" width="38%">
-  <img src="docs/architecture_diagram.png" alt="Diagrama da Arquitetura do Sistema" width="48%">
+  <img src="docs/system_working.png" alt="Sistema operando em campo" width="35%">
+  <img src="docs/architecture_diagram.png" alt="Diagrama da Arquitetura do Sistema" width="50%">
 </p>
 
 A zero-overhead, multi-stage Dockerized ROS 2 (Jazzy) workspace designed for high-performance raw data acquisition from **Unitree L2 LiDARs** and **Intel RealSense** cameras. 
