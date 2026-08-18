@@ -7,14 +7,14 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
+A zero-overhead, multi-stage Dockerized ROS 2 (Jazzy) workspace designed for high-performance raw data acquisition from **Unitree L2 LiDARs** and **Intel RealSense** cameras. 
+
+Built specifically for resource-constrained environments—such as UAV onboard computers or Terrestrial Laser Scanners (TLS)—this architecture ensures ultra-low latency recording and minimizes disk space usage through advanced compression pipelines, ideal for mapping unstructured outdoor environments.
+
 <p align="center">
   <img src="docs/system_working.png" alt="Sistema operando em campo" width="35%">
   <img src="docs/architecture_diagram.png" alt="Diagrama da Arquitetura do Sistema" width="46%">
 </p>
-
-A zero-overhead, multi-stage Dockerized ROS 2 (Jazzy) workspace designed for high-performance raw data acquisition from **Unitree L2 LiDARs** and **Intel RealSense** cameras. 
-
-Built specifically for resource-constrained environments—such as UAV onboard computers or Terrestrial Laser Scanners (TLS)—this architecture ensures ultra-low latency recording and minimizes disk space usage through advanced compression pipelines, ideal for mapping unstructured outdoor environments.
 
 ---
 
