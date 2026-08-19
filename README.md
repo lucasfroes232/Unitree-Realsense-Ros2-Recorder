@@ -150,6 +150,3 @@ rviz2
 
 Contributions are welcome! If you are working on robotic navigation, SLAM optimization, or UAV/TLS data acquisition, feel free to open an issue or submit a Pull Request.
 
-## 📄 License
-
-This project is open-source and available under the standard MIT License.
